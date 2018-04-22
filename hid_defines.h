@@ -141,4 +141,7 @@ extern KEYBOARD_MEM_TYPE const char keyboardLUT_ES[KEYBOARD_SIZE];
 #define KEY_F13                0x68
 #define KEY_F14                0x69
 #define KEY_F15                0x6A
+
+#define KEY_UNICODE            0xC3
+
 #endif /* HID_DEFINES_H_ */

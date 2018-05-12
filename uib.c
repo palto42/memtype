@@ -4,13 +4,14 @@
 
 /** User Input Interface Component */
 
-#define NUM_OF_BUT  (4u)
+#define NUM_OF_BUT  (5u)
 #define ADC_SPAN    (ADC_MAX/(NUM_OF_BUT))
 
 #define RANGE1      ((1*ADC_SPAN)-(ADC_SPAN/2))
 #define RANGE2      ((2*ADC_SPAN)-(ADC_SPAN/2))
 #define RANGE3      ((3*ADC_SPAN)-(ADC_SPAN/2))
 #define RANGE4      ((4*ADC_SPAN)-(ADC_SPAN/2))
+#define RANGE5      ((5*ADC_SPAN)-(ADC_SPAN/2))
 
 /* Button Debounce Time */
 #define uib_INIT_DEBOUNCE   (5u)
@@ -48,7 +49,11 @@ void UIB_Task(void){
     uib_lastButtonPressed = UIB_buttonPressed;
 
     /* The if comparison goes from highest ADC value to the lowest one*/
-    if(ADM_GetAdcValue() > RANGE4)
+    if(ADM_GetAdcValue() > RANGE5)
+    {
+        UIB_buttonPressed = RANGE5_PRESSED;
+    }
+    else if(ADM_GetAdcValue() > RANGE4 )
     {
         UIB_buttonPressed = RANGE4_PRESSED;
     }
@@ -123,6 +128,9 @@ void UIB_Task(void){
             break;
         case DOWN:
             PRINT("DOWN\n");
+            break;
+        case CENTER:
+            PRINT("CENTER\n");
             break;
         default:
             return;

@@ -6,10 +6,12 @@
 
 #include <stdint.h>
 
-#define RANGE4_PRESSED  RIGHT
-#define RANGE3_PRESSED  UP
+#define RANGE5_PRESSED  UP
+#define RANGE4_PRESSED  CENTER
+#define RANGE3_PRESSED  LEFT
 #define RANGE2_PRESSED  DOWN
-#define RANGE1_PRESSED  LEFT
+#define RANGE1_PRESSED  RIGHT
+
 
 /* ADC INPUT BUTTON STATES */
 enum
@@ -18,7 +20,8 @@ enum
     DOWN,
     RIGHT,
     UP,
-    LEFT
+    LEFT,
+    CENTER
 } buttonStates;
 
 /* Public variables */

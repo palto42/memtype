@@ -38,17 +38,14 @@ static void print_releaseKey(void);
 static void print(char * str,uint8_t isRam, uint8_t len);
 
 void print_pressKey(char ascii){
-    
+    //ascii to key
     char key = KEYBOARD_READ_BYTE((void*)(keyboardLUT_ES+ascii));
-    
+
     //setup reportBuffer
     reportBuffer.modifier  = ((SHIFT_MASK) &key) >> 6;
     reportBuffer.modifier |= (ALTGR_MASK) &key;
-
-    // remapping of keys which have original codes > 0x40
-    //   KEY_EUROPE_2 (0x64) using KEY_F1
+    // remapping of KEY_EUROPE_2 to original value
     key = (~(SHIFT_MASK|ALTGR_MASK)) & key;
-    
     if(key == KEY_EUROPE_2) {
         reportBuffer.keycode = KEY_EUROPE_2_ORG;
     } else {
@@ -108,17 +105,7 @@ void printUpdate(void){
             ascii = pgm_read_byte(strBuf[actString].strPtr);//READ CHAR
         }
     }
-    
-    if(ascii >= 0x80) {  // values > 128 indicate UTF-8 codes which are multiple characters
-        // skip and get next char
-        strBuf[actString].strPtr++;     //Increment pointer
-        if(strBuf[actString].info == RAM) {
-            ascii = *(strBuf[actString].strPtr); //READ CHAR
-        }else if(strBuf[actString].info == FLASH) {
-            ascii = pgm_read_byte(strBuf[actString].strPtr);//READ CHAR
-        }
-    }
-    
+
     switch(kbd_status) {
     case INIT:     //Initial debouncing
         if(debounceCount < INIT_DEBOUNCE)

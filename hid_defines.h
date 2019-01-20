@@ -86,14 +86,15 @@ extern KEYBOARD_MEM_TYPE const char keyboardLUT_ES[KEYBOARD_SIZE];
 #define KEY_PERIOD             0x37
 #define KEY_SLASH              0x38
 #define KEY_CAPS_LOCK          0x39
-#define KEY_F1                 0x3A
+#define KEY_F1                 0x3A  // value will be used for KEY_EUROPE_2
 #define KEY_F2                 0x3B
 #define KEY_F3                 0x3C
 #define KEY_F4                 0x3D
 #define KEY_F5                 0x3E
 #define KEY_F6                 0x3F
 
-// Keys > 0x40 can be used directly because the ASCII mapping table uses 0x40 as mask for ALTGR key
+// Keys > 0x40 can't be used directly because the ASCII mapping
+// table uses 0x40 as mask for ALTGR key
 // Remapping KEY_EUROPE_2 to KEY_F1
 // Remapped keys are considered in modified print.c code
 // The keyboard layout tables must be updated for using the remapped keys
@@ -133,15 +134,12 @@ extern KEYBOARD_MEM_TYPE const char keyboardLUT_ES[KEYBOARD_SIZE];
 #define KEY_KEYPAD_9           0x61
 #define KEY_KEYPAD_0           0x62
 #define KEY_KEYPAD_DECIMAL     0x63
-#define KEY_EUROPE_2           KEY_F1 //0x64
-#define KEY_EUROPE_2_ORG       0x64
+#define KEY_EUROPE_2           KEY_F1 // mapped to unused key F1 (< 0x40)
+#define KEY_EUROPE_2_ORG       0x64   // original value
 #define KEY_APPLICATION        0x65
 #define KEY_POWER              0x66
 #define KEY_KEYPAD_EQUAL       0x67
 #define KEY_F13                0x68
 #define KEY_F14                0x69
 #define KEY_F15                0x6A
-
-#define KEY_UNICODE            0xC3
-
 #endif /* HID_DEFINES_H_ */

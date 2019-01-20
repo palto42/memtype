@@ -7,23 +7,23 @@
 #include "print.h"
 
 #define USI_PIN_RETRIES     (2u)
-
+#define USI_PIN_LENGTH 6
 /** Global Data */
 // PIN: 0000 default HASH
 const uint8_t LOCK_HASH[16] EEMEM = {
     0xd4,0x4f,0xb2,0x7a,0x58,0xb4,0x27,0x4a,0x21,0xe6,0x8f,0x39,0x69,0x74,0x23,0x54
 };
 
-static const char erasePin[4] PROGMEM = {'9','9','9','9'};
+static const char erasePin[USI_PIN_LENGTH] PROGMEM = {'9','9','9','9','9','9'};
 
 /** Local Data */
 static char userText[16];
-static char userPin[4];
+static char userPin[USI_PIN_LENGTH];
 static uint8_t userTextIndex;
 static const char USI_keys[] PROGMEM = {'0','1','2','3','4','5','6','7','8','9'};
 static const char PIN_str[] PROGMEM = "PIN: ";
 static const char LOCKED_str[] PROGMEM = "PIN ERR";
-static const char PINRESET_str[] PROGMEM = "PIN RESET to 0000";
+static const char PINRESET_str[] PROGMEM = "PIN RESET to 000000";
 static const uint8_t LOCK_HASH_PGM[16] PROGMEM = {
     0xd4,0x4f,0xb2,0x7a,0x58,0xb4,0x27,0x4a,0x21,0xe6,0x8f,0x39,0x69,0x74,0x23,0x54
 };
@@ -34,7 +34,7 @@ static void usi_print(void);
 static void usi_previous(void);
 static void usi_next(void);
 static void usi_resetPin(void);
-static uint8_t usi_pinCheck(char pin[4]);
+static uint8_t usi_pinCheck(char pin[USI_PIN_LENGTH]);
 
 void USI_Init(void){
     userTextIndex = 0;
@@ -121,18 +121,18 @@ static uint8_t usi_pinCheck(char pin[4]){
     uint8_t i;
 
 
-    if ( (pin[0]==erasePin[0]) && (pin[1]==erasePin[1]) && (pin[2]==erasePin[2]) && (pin[3]==erasePin[3]) )  	
-    {	
+    if ( (pin[0]==erasePin[0]) && (pin[1]==erasePin[1]) && (pin[2]==erasePin[2]) && (pin[3]==erasePin[3] && (pin[4]==erasePin[4]) && (pin[5]==erasePin[5]) )
+    {
 	usi_resetPin();
 	while (1) {};
     }
 
     for(i=0; i<16; i++) {
-        cipher.key[i] = pin[(i%4)];
-        cipher.plain[i] = pin[(i%4)];
+        cipher.key[i] = pin[(i%USI_PIN_LENGTH)];
+        cipher.plain[i] = pin[(i%USI_PIN_LENGTH)];
     }
     noekeon_encrypt();
-	
+
     for(i=0; i<16; i++)
     {
         if(eeprom_read_byte(LOCK_HASH+i) != cipher.plain[i]) {
